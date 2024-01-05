@@ -1,4 +1,4 @@
-<?php 
+TEST<?php 
 if (isset($jfurl))
 {
 	define("jfembed",$jfurl);
