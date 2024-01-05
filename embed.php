@@ -1,4 +1,5 @@
-<?php 
+Test
+            <?php 
 if (isset($jfurl))
 {
 	define("jfembed",$jfurl);
@@ -6,4 +7,5 @@ if (isset($jfurl))
 }
 else
 	throw new Exception("You should set variable \$jfurl as jframework url before incluing this script.");
-?>
+?> 
+            
