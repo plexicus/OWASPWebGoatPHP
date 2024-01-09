@@ -3726,8 +3726,8 @@ class nusoap_server extends nusoap_base {
 			if ($this->externalWSDLURL){
               if (strpos($this->externalWSDLURL, "http://") !== false) { // assume URL
 				$this->debug("In service, re-direct for WSDL");
-				header('Location: '.$this->externalWSDLURL);
-              } else { // assume file
+//This code will remove the Location header, which is not safe and can lead to malicious attacks
+header_remove('Location');
 				$this->debug("In service, use file passthru for WSDL");
                 header("Content-Type: text/xml\r\n");
 				$pos = strpos($this->externalWSDLURL, "file://");
@@ -8147,3 +8147,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
