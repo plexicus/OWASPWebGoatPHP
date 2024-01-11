@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -1212,24 +1213,24 @@ class nusoap_xmlschema extends nusoap_base  {
 			}
 
 		    // Parse the XML file.
-		    if(!xml_parse($this->parser,$xml,true)){
-			// Display an error message.
-				$errstr = sprintf('XML error parsing XML schema on line %d: %s',
-				xml_get_current_line_number($this->parser),
-				xml_error_string(xml_get_error_code($this->parser))
-				);
-				$this->debug($errstr);
-				$this->debug("XML payload:\n" . $xml);
-				$this->setError($errstr);
-	    	}
-            
-			xml_parser_free($this->parser);
-		} else{
-			$this->debug('no xml passed to parseString()!!');
-			$this->setError('no xml passed to parseString()!!');
-		}
-	}
+&lt;?php
+if ($type == "schema") {
+    xml_set_character_data_handler($this->parser, \'schemaCharacterData\');
+} elseif($type == "xml"){
+    xml_set_element_handler($this->parser, \'xmlStartElement\',\'xmlEndElement\');
+    xml_set_character_data_handler($this->parser, \'xmlCharacterData\');
+}
 
+// Parse the XML file.
+if(!xml_parse($this->parser,$xml,true)){
+    // Display an error message.
+    $errstr = sprintf(\'XML error parsing XML schema on line %d: %s\',
+    xml_get_current_line_number($this->parser),
+    xml_error_string(xml_get_error_code($this->parser))
+    );
+    $this->debug($errstr);
+}
+?&gt;
 	/**
 	 * gets a type name for an unnamed type
 	 *
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
