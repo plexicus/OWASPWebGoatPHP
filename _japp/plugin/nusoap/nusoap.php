@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -4070,14 +4071,14 @@ class nusoap_server extends nusoap_base {
 			}
 			$funcCall .= ');';
 			$this->debug('in invoke_method, function call: '.$funcCall);
-			@eval($funcCall);
-		} else {
-			if ($class == '') {
-				$this->debug('in invoke_method, calling function using call_user_func_array()');
-				$call_arg = "$this->methodname";	// straight assignment changes $this->methodname to lower case after call_user_func_array()
-			} elseif ($delim == '..') {
-				$this->debug('in invoke_method, calling class method using call_user_func_array()');
-				$call_arg = array ($class, $method);
+if (!is_string($arg)) {
+        return;
+    }
+    $pattern = "/^$capture[^\\\
+]+$/";
+    if (preg_match($pattern, $arg, $matches)) {
+        return $matches[0];
+    }
 			} else {
 				$this->debug('in invoke_method, calling instance method using call_user_func_array()');
 				$instance = new $class ();
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
