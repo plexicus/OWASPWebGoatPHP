@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -426,40 +427,40 @@ class nusoap_base {
 		// if name has ns, add ns prefix to name
 		$xmlns = '';
         if($name_ns){
-			$prefix = 'nu'.rand(1000,9999);
-			$name = $prefix.':'.$name;
-			$xmlns .= " xmlns:$prefix=\"$name_ns\"";
-		}
-		// if type is prefixed, create type prefix
-		if($type_ns != '' && $type_ns == $this->namespaces['xsd']){
-			// need to fix this. shouldn't default to xsd if no ns specified
-		    // w/o checking against typemap
-			$type_prefix = 'xsd';
-		} elseif($type_ns){
-			$type_prefix = 'ns'.rand(1000,9999);
-			$xmlns .= " xmlns:$type_prefix=\"$type_ns\"";
-		}
-		// serialize attributes if present
-		$atts = '';
-		if($attributes){
-			foreach($attributes as $k => $v){
-				$atts .= " $k=\"".$this->expandEntities($v).'"';
-			}
-		}
-		// serialize null value
-		if (is_null($val)) {
-    		$this->debug("serialize_val: serialize null");
-			if ($use == 'literal') {
-				// TODO: depends on minOccurs
-				$xml = "<$name$xmlns$atts/>";
-				$this->debug("serialize_val returning $xml");
-	        	return $xml;
-        	} else {
-				if (isset($type) && isset($type_prefix)) {
-					$type_str = " xsi:type=\"$type_prefix:$type\"";
-				} else {
-					$type_str = '';
-				}
+<?php
+//...
+    $xml = $val->serialize($use);
+    $this->appendDebug($val->getDebug());
+    $val->clearDebug();
+    $this->debug("serialize_val of soapval returning $xml");
+    return $xml;
+}
+// force valid name if necessary
+if (is_numeric($name)) {
+    $name = '__numeric_' . $name;
+} elseif (! $name) {
+    $name = 'noname';
+}
+// if name has ns, add ns prefix to name
+$xmlns = '';
+if($name_ns){
+    $prefix = 'nu'.bin2hex(openssl_random_pseudo_bytes(2)); // using secure random number generation
+    $name = $prefix.':'.$name;
+    $xmlns .= " xmlns:$prefix=\"$name_ns\"";
+}
+// if type is prefixed, create type prefix
+if($type_ns != '' && $type_ns == $this->namespaces['xsd']){
+    // need to fix this. shouldn't default to xsd if no ns specified
+    // w/o checking against typemap
+    $type_prefix = 'xsd';
+} elseif($type_ns){
+    $type_prefix = 'ns'.bin2hex(openssl_random_pseudo_bytes(2)); // using secure random number generation
+    $xmlns .= " xmlns:$type_prefix=\"$type_ns\"";
+}
+// serialize attributes if present
+$atts = '';
+//...
+?>
 				$xml = "<$name$xmlns$type_str$atts xsi:nil=\"true\"/>";
 				$this->debug("serialize_val returning $xml");
 	        	return $xml;
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
