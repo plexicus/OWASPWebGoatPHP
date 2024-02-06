@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -872,17 +873,17 @@ class nusoap_base {
 	 */
     function varDump($data) {
 		ob_start();
-		var_dump($data);
-		$ret_val = ob_get_contents();
-		ob_end_clean();
-		return $ret_val;
-	}
+function varDump($data) {
+    ob_start();
+    var_dump(htmlspecialchars($data, ENT_QUOTES, 'UTF-8'));
+    $ret_val = ob_get_contents();
+    ob_end_clean();
+    return $ret_val;
+}
 
-	/**
-	* represents the object as a string
-	*
-	* @return	string
-	* @access   public
+function __toString() {
+    return $this->varDump($this);
+}
 	*/
 	function __toString() {
 		return $this->varDump($this);
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
