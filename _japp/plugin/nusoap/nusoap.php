@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -872,36 +873,36 @@ class nusoap_base {
 	 */
     function varDump($data) {
 		ob_start();
-		var_dump($data);
-		$ret_val = ob_get_contents();
-		ob_end_clean();
-		return $ret_val;
-	}
-
-	/**
-	* represents the object as a string
-	*
-	* @return	string
-	* @access   public
-	*/
-	function __toString() {
-		return $this->varDump($this);
-	}
+$sec = time();
+$usec = 0;
+}
+return htmlspecialchars(strftime('%Y-%m-%d %H:%M:%S', $sec) . '.' . sprintf('%06d', $usec), ENT_QUOTES, 'UTF-8');
 }
 
-// XML Schema Datatype Helper Functions
-
-//xsd:dateTime helpers
+/**
+ * Returns a string with the output of var_dump
+ *
+ * @param mixed $data The variable to var_dump
+ * @return string The output of var_dump
+ * @access public
+ */
+function varDump($data) {
+	ob_start();
+	var_dump(htmlspecialchars($data, ENT_QUOTES, 'UTF-8'));
+	$ret_val = ob_get_contents();
+	ob_end_clean();
+	return $ret_val;
+}
 
 /**
-* convert unix timestamp to ISO 8601 compliant date string
+* represents the object as a string
 *
-* @param    int $timestamp Unix time stamp
-* @param	boolean $utc Whether the time stamp is UTC or local
-* @return	mixed ISO 8601 date string or false
+* @return	string
 * @access   public
 */
-function timestamp_to_iso8601($timestamp,$utc=true){
+function __toString() {
+	return $this->varDump($this);
+}
 	$datestr = date('Y-m-d\TH:i:sO',$timestamp);
 	$pos = strrpos($datestr, "+");
 	if ($pos === FALSE) {
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
