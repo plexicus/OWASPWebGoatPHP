@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -4070,31 +4071,31 @@ class nusoap_server extends nusoap_base {
 			}
 			$funcCall .= ');';
 			$this->debug('in invoke_method, function call: '.$funcCall);
-			@eval($funcCall);
-		} else {
-			if ($class == '') {
-				$this->debug('in invoke_method, calling function using call_user_func_array()');
-				$call_arg = "$this->methodname";	// straight assignment changes $this->methodname to lower case after call_user_func_array()
-			} elseif ($delim == '..') {
-				$this->debug('in invoke_method, calling class method using call_user_func_array()');
-				$call_arg = array ($class, $method);
-			} else {
-				$this->debug('in invoke_method, calling instance method using call_user_func_array()');
-				$instance = new $class ();
-				$call_arg = array(&$instance, $method);
-			}
-			if (is_array($this->methodparams)) {
-				$this->methodreturn = call_user_func_array($call_arg, array_values($this->methodparams));
-			} else {
-				$this->methodreturn = call_user_func_array($call_arg, array());
-			}
+if(isset($this->methodparams)) {
+	foreach($this->methodparams as $param) {
+		if (is_array($param) || is_object($param)) {
+			$this->fault('SOAP-ENV:Client', 'NuSOAP does not handle complexType parameters correctly when using call_user_func_array');
+			return;
 		}
-        $this->debug('in invoke_method, methodreturn:');
-        $this->appendDebug($this->varDump($this->methodreturn));
-		$this->debug("in invoke_method, called method $this->methodname, received data of type ".gettype($this->methodreturn));
+		$funcCall .= addslashes($param).',';
 	}
-
-	/**
+	$funcCall = substr($funcCall, 0, -1);
+}
+if(isset($this->methodname)){
+	$this->methodname = htmlentities($this->methodname, ENT_QUOTES, 'UTF-8');
+}
+if($_instname){
+	$_instname = htmlentities($_instname, ENT_QUOTES, 'UTF-8');
+}
+if($_method){
+	$_method = htmlentities($_method, ENT_QUOTES, 'UTF-8');
+}
+if($class){
+	$class = htmlentities($class, ENT_QUOTES, 'UTF-8');
+}
+if($method){
+	$method = htmlentities($method, ENT_QUOTES, 'UTF-8');
+}
 	* serializes the return value from a PHP function into a full SOAP Envelope
 	*
 	* The following fields are set by this function (when successful)
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
