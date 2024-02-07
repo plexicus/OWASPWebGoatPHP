@@ -1,4 +1,5 @@
-<?php
+
+        <?php
 
 /*
 $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
@@ -3726,39 +3727,39 @@ class nusoap_server extends nusoap_base {
 			if ($this->externalWSDLURL){
               if (strpos($this->externalWSDLURL, "http://") !== false) { // assume URL
 				$this->debug("In service, re-direct for WSDL");
-				header('Location: '.$this->externalWSDLURL);
-              } else { // assume file
-				$this->debug("In service, use file passthru for WSDL");
-                header("Content-Type: text/xml\r\n");
-				$pos = strpos($this->externalWSDLURL, "file://");
-				if ($pos === false) {
-					$filename = $this->externalWSDLURL;
-				} else {
-					$filename = substr($this->externalWSDLURL, $pos + 7);
-				}
-                $fp = fopen($this->externalWSDLURL, 'r');
-                fpassthru($fp);
-              }
-			} elseif ($this->wsdl) {
-				$this->debug("In service, serialize WSDL");
-				header("Content-Type: text/xml; charset=ISO-8859-1\r\n");
-				print $this->wsdl->serialize($this->debug_flag);
-				if ($this->debug_flag) {
-					$this->debug('wsdl:');
-					$this->appendDebug($this->varDump($this->wsdl));
-					print $this->getDebugAsXMLComment();
-				}
-			} else {
-				$this->debug("In service, there is no WSDL");
-				header("Content-Type: text/html; charset=ISO-8859-1\r\n");
-				print "This service does not provide WSDL";
-			}
-		} elseif ($this->wsdl) {
-			$this->debug("In service, return Web description");
-			print $this->wsdl->webDescription();
-		} else {
-			$this->debug("In service, no Web description");
-			header("Content-Type: text/html; charset=ISO-8859-1\r\n");
+if ($rm == 'POST') {
+    $this->debug("In service, invoke the request");
+    $this->parse_request($data);
+    if (! $this->fault) {
+        $this->invoke_method();
+    }
+    if (! $this->fault) {
+        $this->serialize_return();
+    }
+    $this->send_response();
+} elseif (preg_match('/wsdl/', $this->secure_input($qs)) ){
+    $this->debug("In service, this is a request for WSDL");
+    if ($this->externalWSDLURL){
+        if (strpos($this->secure_input($this->externalWSDLURL), "http://") !== false) { // assume URL
+            $this->debug("In service, re-direct for WSDL");
+            header('Location: '.urlencode($this->externalWSDLURL));
+        } else { // assume file
+            $this->debug("In service, use file passthru for WSDL");
+            header("Content-Type: text/xml\r
+");
+            $pos = strpos($this->secure_input($this->externalWSDLURL), "file://");
+            if ($pos === false) {
+                $filename = $this->externalWSDLURL;
+            } else {
+                $filename = substr($this->secure_input($this->externalWSDLURL), $pos + 7);
+            }
+            $fp = fopen($this->externalWSDLURL, 'r');
+            fpassthru($fp);
+        }
+    } elseif ($this->wsdl) {
+        $this->debug("In service, serialize WSDL");
+    }
+}
 			print "This service does not provide a Web description";
 		}
 	}
@@ -8147,3 +8148,5 @@ if (!extension_loaded('soap')) {
 	}
 }
 ?>
+
+        
