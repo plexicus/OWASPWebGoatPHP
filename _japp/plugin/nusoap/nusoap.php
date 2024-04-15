@@ -3726,11 +3726,11 @@ class nusoap_server extends nusoap_base {
 			if ($this->externalWSDLURL){
               if (strpos($this->externalWSDLURL, "http://") !== false) { // assume URL
 				$this->debug("In service, re-direct for WSDL");
+if (strpos($this->externalWSDLURL, "http://") !== false) { // assume URL
+				$this->debug("In service, re-direct for WSDL");
 				header('Location: '.$this->externalWSDLURL);
               } else { // assume file
 				$this->debug("In service, use file passthru for WSDL");
-                header("Content-Type: text/xml\r\n");
-				$pos = strpos($this->externalWSDLURL, "file://");
 				if ($pos === false) {
 					$filename = $this->externalWSDLURL;
 				} else {
