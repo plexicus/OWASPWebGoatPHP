@@ -254,7 +254,7 @@ if ($coverage)
 	if (isset($_GET['file'])) //code coverage report for a single file
 	{
 		echo "<a href='?coverage=1'>Clear Report</a>";
-		echo "<h2>Code Coverage Report for {$_GET['file']}</h2>\n";
+         echo "<h2>Code Coverage Report for ".htmlspecialchars($_GET['file'], ENT_QUOTES, 'UTF-8')."</h2>\n";
 		$filename=jf::root().$_GET['file'];
 		$fileCoverage=$coverage[$filename];
 		
