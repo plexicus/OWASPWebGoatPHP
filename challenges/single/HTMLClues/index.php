@@ -29,7 +29,7 @@ namespace webgoat;
 class HTMLClues extends BaseLesson
 {
     const USERNAME = "admin";
-    const PASSWORD = "youGotIt";
+    const PASSWORD = hash('sha256', 'youGotIt');
 
     /**
      * Get title of the lesson
